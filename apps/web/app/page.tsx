@@ -1,6 +1,7 @@
 type HealthResponse = {
   status: string;
   service: string;
+  healthCheckValue: string | null;
 };
 
 async function getApiHealth(): Promise<HealthResponse | null> {
@@ -41,6 +42,10 @@ export default async function HomePage() {
           <div>
             <p className="label">Service</p>
             <p className="value">{health?.service ?? "api"}</p>
+          </div>
+          <div>
+            <p className="label">Health check (DB)</p>
+            <p className="value">{health?.healthCheckValue ?? "indisponível"}</p>
           </div>
         </div>
         <p className="hint">
