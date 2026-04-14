@@ -22,7 +22,7 @@ services:
     ports:
       - "3001:3001"
     env_file:
-      - apps/api/.env.example
+      - apps/api/.env.local
     environment:
       NODE_ENV: development
       CHOKIDAR_USEPOLLING: "true"

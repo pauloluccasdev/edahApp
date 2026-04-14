@@ -52,7 +52,7 @@ h1 {
 
 .healthGrid {
   display: grid;
-  grid-template-columns: auto 1fr 1fr;
+  grid-template-columns: auto 1fr 1fr 1fr;
   gap: 16px;
   align-items: center;
   padding: 20px 0;
@@ -104,7 +104,7 @@ p {
     grid-template-columns: auto 1fr;
   }
 
-  .healthGrid :last-child {
+  .healthGrid > div:not(.statusDot) {
     grid-column: 2;
   }
 }
