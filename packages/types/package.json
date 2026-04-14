@@ -1,0 +1,6 @@
+{
+  "name": "@edah/types",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts"
+}
