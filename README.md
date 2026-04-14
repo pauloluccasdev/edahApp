@@ -20,6 +20,12 @@ Monorepo simples com:
 pnpm install
 ```
 
+Para a API, copie o template e preencha as variáveis:
+
+```bash
+cp apps/api/.env.local.example apps/api/.env.local
+```
+
 ## Rodar sem Docker
 
 ```bash
@@ -64,6 +70,7 @@ O backend já está preparado para evolução futura com Supabase, sem integraç
 Variáveis previstas no `apps/api`:
 
 - `DATABASE_URL`
+- `DIRECT_URL`
 - `SUPABASE_URL`
 - `SUPABASE_ANON_KEY`
 
