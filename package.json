@@ -1,0 +1,9 @@
+{
+  "name": "edahApp",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter web dev & pnpm --filter api dev & wait",
+    "docker:up": "sh ./scripts/docker-up.sh",
+    "docker:down": "sh ./scripts/docker-down.sh"
+  }
+}
