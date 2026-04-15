@@ -92,6 +92,12 @@ a:hover { text-decoration: underline; }
    Utilitários de layout (uso pontual, preferir CSS Modules)
    ============================================================ */
 
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
