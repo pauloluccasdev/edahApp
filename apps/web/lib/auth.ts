@@ -6,6 +6,7 @@ export interface TokenPayload {
   name: string;
   avatarUrl: string | null;
   churchId: string;
+  churchName: string;
   role: string;
   isSuporte: boolean;
 }

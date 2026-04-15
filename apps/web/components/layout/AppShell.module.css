@@ -1,0 +1,107 @@
+.shell {
+  display: flex;
+  min-height: 100dvh;
+  background: var(--color-bg-base);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 14, 24, 0.65);
+  z-index: 40;
+  backdrop-filter: blur(2px);
+  animation: fadeIn var(--duration-enter) var(--ease-out);
+}
+
+/* ---- Floating collapse handle ---- */
+
+.collapseHandle {
+  position: fixed;
+  top: calc(56px / 2);           /* centro vertical da logoRow */
+  left: calc(240px - 10px);      /* borda da sidebar expandida */
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border-mid);
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition:
+    left var(--duration-state) var(--ease-in-out),
+    transform var(--duration-state) var(--ease-in-out),
+    opacity var(--duration-micro) var(--ease-out),
+    background var(--duration-micro) var(--ease-out),
+    color var(--duration-micro) var(--ease-out);
+}
+
+/* Visível ao passar o mouse na shell */
+.shell:hover .collapseHandle {
+  opacity: 1;
+}
+
+.collapseHandle:hover {
+  background: var(--color-bg-03);
+  color: var(--color-text-primary);
+  border-color: var(--color-brand-light);
+}
+
+/* Estado colapsado: reposiciona + gira a seta */
+.collapseHandleCollapsed {
+  left: calc(64px - 10px);
+  transform: translateY(-50%) rotate(180deg);
+  opacity: 1; /* sempre visível quando colapsado */
+}
+
+.collapseHandleCollapsed:hover {
+  transform: translateY(-50%) rotate(180deg) scale(1.1);
+}
+
+/* ---- Main area ---- */
+
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  margin-left: 240px;
+  transition: margin-left var(--duration-state) var(--ease-in-out);
+}
+
+.main.collapsed {
+  margin-left: 64px;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* ---- Mobile ---- */
+
+@media (max-width: 767px) {
+  .main,
+  .main.collapsed {
+    margin-left: 0;
+  }
+
+  .collapseHandle {
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main { transition: none; }
+  .overlay { animation: none; }
+  .collapseHandle { transition: opacity var(--duration-micro) var(--ease-out); }
+}

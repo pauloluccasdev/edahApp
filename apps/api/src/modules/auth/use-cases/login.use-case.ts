@@ -26,11 +26,17 @@ export class LoginUseCase {
       throw new UnauthorizedException('Usuário não cadastrado na aplicação.');
     }
 
-    // 3. Busca o papel do usuário na sua church
-    const churchRole = await this.prisma.churchRoleAssignment.findFirst({
-      where: { userId: user.id, churchId: user.churchId },
-      orderBy: { createdAt: 'desc' },
-    });
+    // 3. Busca o papel do usuário e o nome da church em paralelo
+    const [churchRole, church] = await Promise.all([
+      this.prisma.churchRoleAssignment.findFirst({
+        where: { userId: user.id, churchId: user.churchId },
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.church.findUnique({
+        where: { id: user.churchId },
+        select: { name: true },
+      }),
+    ]);
 
     const role = churchRole?.role ?? 'membro';
     const email = user.email ?? dto.email;
@@ -43,6 +49,7 @@ export class LoginUseCase {
       name: user.name,
       avatarUrl: user.avatarUrl,
       churchId: user.churchId,
+      churchName: church?.name ?? '',
       role,
       isSuporte: user.isSuporte,
     });

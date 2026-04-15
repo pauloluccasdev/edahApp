@@ -1,0 +1,139 @@
+.topbar {
+  height: 56px;
+  background: var(--color-bg-01);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-4);
+  gap: var(--space-3);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  flex-shrink: 0;
+}
+
+/* ---- Hamburger (mobile only) ---- */
+
+.hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background var(--duration-micro) var(--ease-out);
+  flex-shrink: 0;
+}
+
+.hamburger:hover {
+  background: var(--color-bg-02);
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 767px) {
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* ---- Page title ---- */
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Suporte controls ---- */
+
+.suporteArea {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.suporteBadge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-warning);
+  background: var(--color-warning-bg);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-warning);
+}
+
+.select {
+  height: 32px;
+  padding: 0 var(--space-2);
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--duration-micro) var(--ease-out);
+  max-width: 160px;
+}
+
+.select:focus {
+  border-color: var(--color-brand-light);
+}
+
+@media (max-width: 767px) {
+  .suporteArea {
+    display: none; /* ocultado em mobile por espaço */
+  }
+}
+
+/* ---- Notification bell ---- */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+}
+
+.iconBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background var(--duration-micro) var(--ease-out);
+}
+
+.iconBtn:hover {
+  background: var(--color-bg-02);
+  color: var(--color-text-primary);
+}
+
+.badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-danger);
+  border: 2px solid var(--color-bg-01);
+}
