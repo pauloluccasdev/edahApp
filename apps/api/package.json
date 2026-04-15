@@ -8,6 +8,10 @@
     "start:dev": "nest start --watch",
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:migrate:status": "prisma migrate status",
+    "prisma:migrate:reset": "prisma migrate reset",
+    "prisma:migrate:rollback": "ts-node -r tsconfig-paths/register scripts/migrate-rollback.ts",
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
