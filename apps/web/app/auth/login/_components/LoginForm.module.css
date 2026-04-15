@@ -1,0 +1,182 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ---- Erro global do formulário ---- */
+
+.formError {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ---- Campo ---- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.forgotLink {
+  font-size: 12px;
+  color: var(--color-brand-light);
+  text-decoration: none;
+  transition: color var(--duration-micro) var(--ease-out);
+}
+
+.forgotLink:hover {
+  color: var(--color-text-primary);
+}
+
+/* ---- Input ---- */
+
+.input {
+  height: 42px;
+  padding: 0 var(--space-4);
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  transition:
+    border-color var(--duration-micro) var(--ease-out),
+    box-shadow var(--duration-micro) var(--ease-out);
+}
+
+.input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.input:focus {
+  border-color: var(--color-brand-light);
+  box-shadow: 0 0 0 3px rgba(74, 143, 212, 0.15);
+}
+
+.inputError {
+  border-color: var(--color-danger);
+}
+
+.inputError:focus {
+  box-shadow: 0 0 0 3px rgba(184, 50, 50, 0.15);
+}
+
+/* ---- Password wrapper ---- */
+
+.passwordWrapper {
+  position: relative;
+}
+
+.inputPassword {
+  padding-right: 44px;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 42px;
+  height: 42px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--duration-micro) var(--ease-out);
+}
+
+.togglePassword:hover {
+  color: var(--color-text-secondary);
+}
+
+/* ---- Mensagem de erro de campo ---- */
+
+.fieldError {
+  font-size: 12px;
+  color: var(--color-danger);
+  line-height: 1.4;
+}
+
+/* ---- Botão de submit ---- */
+
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  height: 44px;
+  margin-top: var(--space-2);
+  background: var(--color-brand-mid);
+  color: var(--color-text-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--duration-micro) var(--ease-out);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--color-brand-light);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submitButton:focus-visible {
+  outline: 2px solid var(--color-brand-light);
+  outline-offset: 2px;
+}
+
+/* ---- Spinner ---- */
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 9999px;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .submitButton,
+  .input,
+  .forgotLink,
+  .togglePassword { transition: none; }
+  .spinner { animation: none; }
+}
