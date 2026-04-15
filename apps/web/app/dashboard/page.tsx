@@ -5,7 +5,7 @@ import styles from './page.module.css';
 export default async function DashboardPage() {
   const session = await getSession();
 
-  if (!session) redirect('/login');
+  if (!session) redirect('/auth/login');
 
   return (
     <main className={styles.root}>

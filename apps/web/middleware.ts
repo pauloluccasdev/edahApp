@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const PUBLIC_PATHS = ['/login', '/esqueceu-senha'];
+const LOGIN_PATH = '/auth/login';
+const PUBLIC_PATHS = [LOGIN_PATH, '/esqueceu-senha'];
 const AUTH_REDIRECT = '/dashboard';
 
 export function middleware(request: NextRequest) {
@@ -17,7 +18,7 @@ export function middleware(request: NextRequest) {
 
   // Rota protegida sem token → redireciona pro login
   if (!isPublic && !token) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
   }
 
   return NextResponse.next();
