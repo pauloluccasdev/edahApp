@@ -1,0 +1,143 @@
+/* ============================================================
+   Edah Design System — Tokens CSS
+   v1.0 · Abril 2026
+   Sempre usar tokens. Nunca hardcodar valores diretamente.
+   ============================================================ */
+
+:root {
+  /* --------------------------------------------------
+     Superfícies (Backgrounds)
+     Cinco níveis de profundidade sem box-shadow.
+     Regra: cada camada acima é ~10% mais clara.
+  -------------------------------------------------- */
+  --color-bg-base:  #080E18;
+  --color-bg-01:    #0F1824;
+  --color-bg-02:    #151F2E;
+  --color-bg-03:    #1C2A3E;
+  --color-bg-04:    #243248;
+  --color-bg-card:  #111A27;
+
+  /* --------------------------------------------------
+     Marca (Brand)
+  -------------------------------------------------- */
+  --color-brand-navy:  #0D1B2E;
+  --color-brand-deep:  #1B3A6B;
+  --color-brand-mid:   #2E5FA3;
+  --color-brand-light: #4A8FD4;
+  --color-brand-pale:  #C8DDF5;
+
+  /* --------------------------------------------------
+     Texto
+  -------------------------------------------------- */
+  --color-text-primary:   #F0F4FA;
+  --color-text-secondary: #8A9BB5;
+  --color-text-tertiary:  #4E6080;
+
+  /* --------------------------------------------------
+     Status (sólido + variante de fundo)
+     Texto sobre bg sempre usa a versão sólida.
+  -------------------------------------------------- */
+  --color-success:     #1A7A4A;
+  --color-success-bg:  #0D2E1E;
+
+  --color-warning:     #B87000;
+  --color-warning-bg:  #2A1E00;
+
+  --color-danger:      #B83232;
+  --color-danger-bg:   #2A0D0D;
+
+  --color-info:        #4A8FD4;
+  --color-info-bg:     #0D1E2E;
+
+  /* --------------------------------------------------
+     Bordas
+  -------------------------------------------------- */
+  --color-border:     #1E2E42;
+  --color-border-mid: #2A3E58;
+
+  /* --------------------------------------------------
+     Tipografia
+  -------------------------------------------------- */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* --------------------------------------------------
+     Espaçamento (base 4px)
+  -------------------------------------------------- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* --------------------------------------------------
+     Border Radius
+  -------------------------------------------------- */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* --------------------------------------------------
+     Elevação (sombras)
+     Em UI dark, elevação = cor de superfície mais clara.
+     Sombras usam azul escuro com baixa opacidade.
+  -------------------------------------------------- */
+  --shadow-card:    0 1px 4px rgba(0, 0, 0, 0.4);
+  --shadow-hover:   0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-modal:   0 4px 16px rgba(0, 0, 0, 0.6);
+  --shadow-tooltip: 0 8px 32px rgba(8, 14, 24, 0.8);
+
+  /* --------------------------------------------------
+     Iconografia (tamanhos)
+  -------------------------------------------------- */
+  --icon-xs:  12px;
+  --icon-sm:  16px;
+  --icon-md:  20px;
+  --icon-lg:  24px;
+  --icon-xl:  32px;
+  --icon-2xl: 48px;
+
+  /* --------------------------------------------------
+     Badges de Ministério
+  -------------------------------------------------- */
+  --ministry-louvor:      #5B2DA8;
+  --ministry-louvor-bg:   #1E0D3A;
+
+  --ministry-gc:          #0F6E56;
+  --ministry-gc-bg:       #042E24;
+
+  --ministry-midia:       #0F5FA3;
+  --ministry-midia-bg:    #04213A;
+
+  --ministry-danca:       #A82D7A;
+  --ministry-danca-bg:    #3A0D2A;
+
+  --ministry-disc:        #A85B0D;
+  --ministry-disc-bg:     #3A1E04;
+
+  --ministry-adol:        #2D7A1A;
+  --ministry-adol-bg:     #0D2A04;
+
+  --ministry-cron:        #7A5B1A;
+  --ministry-cron-bg:     #2A1E04;
+
+  /* --------------------------------------------------
+     Motion (durações e easings padronizados)
+  -------------------------------------------------- */
+  --duration-micro:  150ms;
+  --duration-state:  200ms;
+  --duration-enter:  250ms;
+  --duration-exit:   150ms;
+  --duration-page:   200ms;
+
+  --ease-out:     cubic-bezier(0, 0, 0.2, 1);
+  --ease-in:      cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out:  cubic-bezier(0.4, 0, 0.2, 1);
+}

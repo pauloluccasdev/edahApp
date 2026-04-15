@@ -1,0 +1,46 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ---- Status ---- */
+
+.success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+.info {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+/* ---- Ministérios ---- */
+
+.louvor { background: var(--ministry-louvor-bg); color: var(--ministry-louvor); }
+.gc     { background: var(--ministry-gc-bg);     color: var(--ministry-gc); }
+.midia  { background: var(--ministry-midia-bg);  color: var(--ministry-midia); }
+.danca  { background: var(--ministry-danca-bg);  color: var(--ministry-danca); }
+.disc   { background: var(--ministry-disc-bg);   color: var(--ministry-disc); }
+.adol   { background: var(--ministry-adol-bg);   color: var(--ministry-adol); }
+.cron   { background: var(--ministry-cron-bg);   color: var(--ministry-cron); }
