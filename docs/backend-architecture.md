@@ -402,7 +402,77 @@ POST /churches
 
 ---
 
-## 9. Regra de Ouro
+## 9. Segurança Multi-tenant — Regras Obrigatórias em Rotas
+
+> Toda rota autenticada valida JWT **e** `church_id`. Acesso cross-tenant retorna **HTTP 403**.
+
+### Regra 1 — JWT obrigatório em toda rota protegida
+
+Toda rota que acessa dados da aplicação deve ter `@UseGuards(JwtAuthGuard)`.  
+Sem o guard, qualquer request sem token passa.
+
+```typescript
+@UseGuards(JwtAuthGuard)
+@Get('members')
+getMembers(@CurrentUser() user: AuthenticatedUser) { ... }
+```
+
+### Regra 2 — `church_id` do token, nunca da URL/body
+
+O `church_id` que define o escopo da query **sempre** vem do token JWT (`user.churchId`), nunca de um parâmetro enviado pelo cliente. O cliente não decide de qual church vai ler os dados.
+
+```typescript
+// CERTO — church_id vem do token
+async execute(user: AuthenticatedUser) {
+  return this.prisma.member.findMany({
+    where: { churchId: user.churchId },
+  });
+}
+
+// ERRADO — church_id vem do cliente
+async execute(dto: { churchId: string }) {
+  return this.prisma.member.findMany({
+    where: { churchId: dto.churchId }, // ← qualquer um pode passar qualquer church
+  });
+}
+```
+
+### Regra 3 — Validação de cross-tenant explícita
+
+Quando um recurso é acessado por ID (ex: `GET /events/:id`), valide que o recurso pertence à church do usuário antes de retornar.
+
+```typescript
+async execute(eventId: string, user: AuthenticatedUser) {
+  const event = await this.prisma.event.findUnique({ where: { id: eventId } });
+
+  if (!event) throw new NotFoundException();
+
+  if (event.churchId !== user.churchId && !user.isSuporte) {
+    throw new ForbiddenException(); // HTTP 403 — acesso cross-tenant
+  }
+
+  return event;
+}
+```
+
+### Regra 4 — Suporte é a única exceção
+
+Usuários com `isSuporte = true` podem acessar dados de qualquer church.  
+O `RolesGuard` já trata isso automaticamente. Nos use cases, sempre cheque `user.isSuporte` antes de lançar `ForbiddenException`.
+
+### Resumo
+
+| Cenário | Comportamento esperado |
+|---|---|
+| Sem token | `401 Unauthorized` |
+| Token válido, recurso da mesma church | `200 OK` |
+| Token válido, recurso de outra church | `403 Forbidden` |
+| Token válido, `isSuporte = true` | `200 OK` (acesso irrestrito) |
+| Recurso não encontrado | `404 Not Found` |
+
+---
+
+## 10. Regra de Ouro
 
 > **Se a abstração não resolve um problema real hoje, não crie.**
 >

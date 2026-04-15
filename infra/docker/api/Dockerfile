@@ -15,4 +15,5 @@ RUN pnpm install
 
 EXPOSE 3001
 
-CMD ["pnpm", "--filter", "api", "start:dev"]
+# prisma generate roda no startup: nesse momento as env vars e o volume já estão disponíveis
+CMD ["sh", "-c", "pnpm --filter api prisma:generate && pnpm --filter api start:dev"]

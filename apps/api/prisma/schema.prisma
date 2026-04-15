@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -11,10 +12,10 @@ datasource db {
 // ---------------------------------------------------------------------------
 
 enum ChurchRole {
-  pastor
+  pastor_central
   pastor_auxiliar
-  admin
-  member
+  lider
+  membro
 }
 
 enum ScheduleMemberStatus {
@@ -88,8 +89,10 @@ model User {
   name       String
   email      String?  @unique
   phone      String?
+  whatsapp   String?
   avatarUrl  String?  @map("avatar_url")
   supabaseId String?  @unique @map("supabase_id")
+  isSuporte  Boolean  @default(false) @map("is_suporte")
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
