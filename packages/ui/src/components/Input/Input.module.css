@@ -1,0 +1,82 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.input {
+  height: 40px;
+  padding: 0 var(--space-4);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  transition:
+    border-color var(--duration-micro) var(--ease-out),
+    box-shadow var(--duration-micro) var(--ease-out);
+}
+
+.input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.input:focus {
+  border-color: var(--color-brand-light);
+  box-shadow: 0 0 0 3px rgba(74, 143, 212, 0.15);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--color-bg-01);
+}
+
+/* ---- Variantes de estado ---- */
+
+.error .input,
+.input.error {
+  border-color: var(--color-danger);
+}
+.error .input:focus,
+.input.error:focus {
+  box-shadow: 0 0 0 3px rgba(184, 50, 50, 0.15);
+}
+
+.success .input,
+.input.success {
+  border-color: var(--color-success);
+}
+.success .input:focus,
+.input.success:focus {
+  box-shadow: 0 0 0 3px rgba(26, 122, 74, 0.15);
+}
+
+/* ---- Mensagem de feedback ---- */
+
+.message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.message.errorMsg  { color: var(--color-danger); }
+.message.successMsg { color: var(--color-success); }
+.message.warningMsg { color: var(--color-warning); }
+.message.hintMsg    { color: var(--color-text-tertiary); }

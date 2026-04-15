@@ -1,6 +1,8 @@
 export interface AuthenticatedUser {
   id: string;
   email: string;
+  name: string;
+  avatarUrl: string | null;
   churchId: string;
   role: string;
   supabaseUserId: string;

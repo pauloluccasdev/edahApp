@@ -95,6 +95,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@edah/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: ^15.3.0
         version: 15.5.15(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -130,6 +133,15 @@ importers:
   packages/config: {}
 
   packages/types: {}
+
+  packages/ui:
+    dependencies:
+      react:
+        specifier: ^19.0.0
+        version: 19.2.5
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.5(react@19.2.5)
 
 packages:
 

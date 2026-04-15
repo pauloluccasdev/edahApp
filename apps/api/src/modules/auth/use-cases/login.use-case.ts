@@ -35,11 +35,13 @@ export class LoginUseCase {
     const role = churchRole?.role ?? 'membro';
     const email = user.email ?? dto.email;
 
-    // 4. Gera JWT próprio da aplicação
+    // 4. Gera JWT próprio da aplicação com dados completos do perfil
     const accessToken = this.tokenService.generate({
       sub: user.id,
       supabaseUserId,
       email,
+      name: user.name,
+      avatarUrl: user.avatarUrl,
       churchId: user.churchId,
       role,
       isSuporte: user.isSuporte,
@@ -50,6 +52,10 @@ export class LoginUseCase {
       user: {
         id: user.id,
         email,
+        name: user.name,
+        phone: user.phone,
+        whatsapp: user.whatsapp,
+        avatarUrl: user.avatarUrl,
         churchId: user.churchId,
         role,
         isSuporte: user.isSuporte,

@@ -1,0 +1,125 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: 40px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-micro) var(--ease-out),
+    border-color var(--duration-micro) var(--ease-out),
+    color var(--duration-micro) var(--ease-out),
+    opacity var(--duration-micro) var(--ease-out);
+  white-space: nowrap;
+  text-decoration: none;
+  outline: none;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-brand-light);
+  outline-offset: 2px;
+}
+
+/* ---- Variantes ---- */
+
+.primary {
+  background: var(--color-brand-mid);
+  color: var(--color-text-primary);
+}
+.primary:hover:not(:disabled) {
+  background: var(--color-brand-light);
+}
+
+.secondary {
+  background: var(--color-bg-03);
+  color: var(--color-brand-light);
+  border-color: var(--color-border-mid);
+}
+.secondary:hover:not(:disabled) {
+  background: var(--color-bg-04);
+  border-color: var(--color-brand-light);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+.ghost:hover:not(:disabled) {
+  background: var(--color-bg-02);
+  color: var(--color-text-primary);
+}
+
+.danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+.danger:hover:not(:disabled) {
+  background: var(--color-danger);
+  color: var(--color-text-primary);
+}
+
+.iconOnly {
+  background: var(--color-bg-03);
+  color: var(--color-text-secondary);
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+.iconOnly:hover:not(:disabled) {
+  background: var(--color-bg-04);
+  color: var(--color-text-primary);
+}
+
+/* ---- Tamanhos ---- */
+
+.sm {
+  height: 32px;
+  padding: 0 var(--space-3);
+  font-size: 12px;
+}
+
+.lg {
+  height: 48px;
+  padding: 0 var(--space-8);
+  font-size: 16px;
+}
+
+/* ---- Estados ---- */
+
+.button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.button:active:not(:disabled) {
+  filter: brightness(0.9);
+}
+
+/* ---- Spinner de loading ---- */
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: var(--radius-full);
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button { transition: none; }
+  .spinner { animation: none; }
+}
