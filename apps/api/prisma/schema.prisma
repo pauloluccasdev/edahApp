@@ -1,7 +1,404 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum ChurchRole {
+  pastor_central
+  pastor_auxiliar
+  lider
+  membro
+}
+
+enum ScheduleMemberStatus {
+  confirmed
+  pending
+  substitution_requested
+}
+
+enum SubstitutionStatus {
+  pending
+  approved
+  rejected
+}
+
+enum EventType {
+  culto
+  ensaio
+  conferencia
+  celula
+  outro
+}
+
+enum RecurrenceType {
+  none
+  weekly
+  biweekly
+  monthly
+}
+
+enum NotificationChannel {
+  whatsapp
+  sms
+  email
+  push
+}
+
+enum AttendanceStatus {
+  present
+  absent
+  justified
+}
+
+enum ConflictDecision {
+  pending
+  member_decided
+  leader_decided
+}
+
+// ---------------------------------------------------------------------------
+// Models
+// ---------------------------------------------------------------------------
+
+model Church {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  users         User[]
+  departments   Department[]
+  events        Event[]
+  notifications Notification[]
+
+  @@map("churches")
+}
+
+model User {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId   String   @map("church_id") @db.Uuid
+  name       String
+  email      String?  @unique
+  phone      String?
+  whatsapp   String?
+  avatarUrl  String?  @map("avatar_url")
+  supabaseId String?  @unique @map("supabase_id")
+  isSuporte  Boolean  @default(false) @map("is_suporte")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  church                Church                 @relation(fields: [churchId], references: [id])
+  churchRoles           ChurchRoleAssignment[]
+  departmentMembers     DepartmentMember[]
+  scheduleMembers       ScheduleMember[]
+  substitutionsOut      ScheduleSubstitution[] @relation("SubstitutionFrom")
+  substitutionsIn       ScheduleSubstitution[] @relation("SubstitutionTo")
+  substitutionsApproved ScheduleSubstitution[] @relation("SubstitutionApproved")
+  availabilities        Availability[]
+  conflictsAsMember     ConflictRequest[]      @relation("ConflictMember")
+  conflictsDecided      ConflictRequest[]      @relation("ConflictDecider")
+  ledDepartments        Department[]           @relation("DepartmentLeader")
+  schedulesAsMinister   Schedule[]             @relation("ScheduleMinister")
+  attendance            Attendance[]
+  serviceTimelineItems  ServiceTimeline[]
+  notifications         Notification[]
+
+  @@map("users")
+}
+
+model ChurchRoleAssignment {
+  id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId  String     @map("church_id") @db.Uuid
+  userId    String     @map("user_id") @db.Uuid
+  role      ChurchRole
+  createdAt DateTime   @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([churchId, userId, role])
+  @@map("church_roles")
+}
+
+model Department {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId    String   @map("church_id") @db.Uuid
+  name        String
+  leaderId    String?  @map("leader_id") @db.Uuid
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  church             Church              @relation(fields: [churchId], references: [id])
+  leader             User?               @relation("DepartmentLeader", fields: [leaderId], references: [id])
+  members            DepartmentMember[]
+  eventDepartments   EventDepartment[]
+  eventNotifications EventNotification[]
+  schedules          Schedule[]
+  availabilities     Availability[]
+
+  @@map("departments")
+}
+
+model DepartmentMember {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId     String   @map("church_id") @db.Uuid
+  departmentId String   @map("department_id") @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  joinedAt     DateTime @default(now()) @map("joined_at")
+
+  department Department @relation(fields: [departmentId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
+
+  @@unique([departmentId, userId])
+  @@map("department_members")
+}
+
+model Event {
+  id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId        String         @map("church_id") @db.Uuid
+  title           String
+  description     String?
+  eventType       EventType      @map("event_type")
+  startsAt        DateTime       @map("starts_at")
+  endsAt          DateTime?      @map("ends_at")
+  recurrenceType  RecurrenceType @default(none) @map("recurrence_type")
+  recurrenceUntil DateTime?      @map("recurrence_until")
+  importedFrom    String?        @map("imported_from")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+
+  church             Church              @relation(fields: [churchId], references: [id])
+  eventDepartments   EventDepartment[]
+  eventNotifications EventNotification[]
+  schedules          Schedule[]
+  attendance         Attendance[]
+  serviceTimeline    ServiceTimeline[]
+
+  @@map("events")
+}
+
+model EventDepartment {
+  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId     String @map("church_id") @db.Uuid
+  eventId      String @map("event_id") @db.Uuid
+  departmentId String @map("department_id") @db.Uuid
+
+  event      Event      @relation(fields: [eventId], references: [id])
+  department Department @relation(fields: [departmentId], references: [id])
+
+  @@unique([eventId, departmentId])
+  @@map("event_departments")
+}
+
+model EventNotification {
+  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId     String @map("church_id") @db.Uuid
+  eventId      String @map("event_id") @db.Uuid
+  departmentId String @map("department_id") @db.Uuid
+
+  event      Event      @relation(fields: [eventId], references: [id])
+  department Department @relation(fields: [departmentId], references: [id])
+
+  @@unique([eventId, departmentId])
+  @@map("event_notifications")
+}
+
+model Schedule {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId     String   @map("church_id") @db.Uuid
+  eventId      String   @map("event_id") @db.Uuid
+  departmentId String   @map("department_id") @db.Uuid
+  ministerId   String?  @map("minister_id") @db.Uuid
+  scheduleInfo String?  @map("schedule_info")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  event      Event            @relation(fields: [eventId], references: [id])
+  department Department       @relation(fields: [departmentId], references: [id])
+  minister   User?            @relation("ScheduleMinister", fields: [ministerId], references: [id])
+  members    ScheduleMember[]
+  songs      Song[]
+  rehearsals Rehearsal[]
+
+  @@unique([eventId, departmentId])
+  @@map("schedules")
+}
+
+model ScheduleMember {
+  id         String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId   String               @map("church_id") @db.Uuid
+  scheduleId String               @map("schedule_id") @db.Uuid
+  userId     String               @map("user_id") @db.Uuid
+  status     ScheduleMemberStatus @default(pending)
+  createdAt  DateTime             @default(now()) @map("created_at")
+  updatedAt  DateTime             @updatedAt @map("updated_at")
+
+  schedule      Schedule               @relation(fields: [scheduleId], references: [id])
+  user          User                   @relation(fields: [userId], references: [id])
+  substitutions ScheduleSubstitution[]
+
+  @@unique([scheduleId, userId])
+  @@map("schedule_members")
+}
+
+model ScheduleSubstitution {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId         String             @map("church_id") @db.Uuid
+  scheduleMemberId String             @map("schedule_member_id") @db.Uuid
+  fromUserId       String             @map("from_user_id") @db.Uuid
+  toUserId         String             @map("to_user_id") @db.Uuid
+  reason           String?
+  status           SubstitutionStatus @default(pending)
+  approvedById     String?            @map("approved_by") @db.Uuid
+  approvedAt       DateTime?          @map("approved_at")
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+
+  scheduleMember ScheduleMember @relation(fields: [scheduleMemberId], references: [id])
+  fromUser       User           @relation("SubstitutionFrom", fields: [fromUserId], references: [id])
+  toUser         User           @relation("SubstitutionTo", fields: [toUserId], references: [id])
+  approvedBy     User?          @relation("SubstitutionApproved", fields: [approvedById], references: [id])
+
+  @@map("schedule_substitutions")
+}
+
+model Availability {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId     String   @map("church_id") @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  departmentId String   @map("department_id") @db.Uuid
+  date         DateTime @db.Date
+  available    Boolean  @default(true)
+  note         String?
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user       User       @relation(fields: [userId], references: [id])
+  department Department @relation(fields: [departmentId], references: [id])
+
+  @@unique([userId, departmentId, date])
+  @@map("availability")
+}
+
+model ConflictRequest {
+  id                 String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId           String           @map("church_id") @db.Uuid
+  memberId           String           @map("member_id") @db.Uuid
+  scheduleIdA        String           @map("schedule_id_a") @db.Uuid
+  scheduleIdB        String           @map("schedule_id_b") @db.Uuid
+  decision           ConflictDecision @default(pending)
+  decidedById        String?          @map("decided_by") @db.Uuid
+  decidedAt          DateTime?        @map("decided_at")
+  resolvedScheduleId String?          @map("resolved_schedule_id") @db.Uuid
+  createdAt          DateTime         @default(now()) @map("created_at")
+  updatedAt          DateTime         @updatedAt @map("updated_at")
+
+  member    User  @relation("ConflictMember", fields: [memberId], references: [id])
+  decidedBy User? @relation("ConflictDecider", fields: [decidedById], references: [id])
+
+  @@map("conflict_requests")
+}
+
+model Song {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId   String   @map("church_id") @db.Uuid
+  scheduleId String   @map("schedule_id") @db.Uuid
+  title      String
+  artist     String?
+  youtubeUrl String?  @map("youtube_url")
+  key        String?
+  order      Int      @default(0)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  schedule Schedule @relation(fields: [scheduleId], references: [id])
+
+  @@map("songs")
+}
+
+model Rehearsal {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId   String   @map("church_id") @db.Uuid
+  scheduleId String   @map("schedule_id") @db.Uuid
+  startsAt   DateTime @map("starts_at")
+  location   String?
+  notes      String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  schedule  Schedule            @relation(fields: [scheduleId], references: [id])
+  reminders RehearsalReminder[]
+
+  @@map("rehearsals")
+}
+
+model RehearsalReminder {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId    String    @map("church_id") @db.Uuid
+  rehearsalId String    @map("rehearsal_id") @db.Uuid
+  hoursBefore Int       @map("hours_before")
+  sent        Boolean   @default(false)
+  sentAt      DateTime? @map("sent_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  rehearsal Rehearsal @relation(fields: [rehearsalId], references: [id])
+
+  @@map("rehearsal_reminders")
+}
+
+model Attendance {
+  id         String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId   String           @map("church_id") @db.Uuid
+  eventId    String           @map("event_id") @db.Uuid
+  userId     String           @map("user_id") @db.Uuid
+  status     AttendanceStatus @default(present)
+  note       String?
+  recordedAt DateTime         @default(now()) @map("recorded_at")
+
+  event Event @relation(fields: [eventId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@unique([eventId, userId])
+  @@map("attendance")
+}
+
+model ServiceTimeline {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId         String   @map("church_id") @db.Uuid
+  eventId          String   @map("event_id") @db.Uuid
+  order            Int
+  momentType       String   @map("moment_type")
+  description      String?
+  responsibleId    String?  @map("responsible_id") @db.Uuid
+  estimatedMinutes Int?     @map("estimated_minutes")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  event       Event @relation(fields: [eventId], references: [id])
+  responsible User? @relation(fields: [responsibleId], references: [id])
+
+  @@map("service_timeline")
+}
+
+model Notification {
+  id          String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId    String              @map("church_id") @db.Uuid
+  recipientId String              @map("recipient_id") @db.Uuid
+  channel     NotificationChannel
+  title       String
+  body        String
+  sentAt      DateTime?           @map("sent_at")
+  readAt      DateTime?           @map("read_at")
+  createdAt   DateTime            @default(now()) @map("created_at")
+
+  church    Church @relation(fields: [churchId], references: [id])
+  recipient User   @relation(fields: [recipientId], references: [id])
+
+  @@map("notifications")
 }
