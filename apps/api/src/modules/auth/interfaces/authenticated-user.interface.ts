@@ -4,6 +4,7 @@ export interface AuthenticatedUser {
   name: string;
   avatarUrl: string | null;
   churchId: string;
+  churchName: string;
   role: string;
   supabaseUserId: string;
   isSuporte: boolean;
