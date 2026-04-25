@@ -1,10 +1,10 @@
 .topbar {
-  height: 56px;
+  height: 64px;
   background: var(--color-bg-01);
   border-bottom: 1px solid var(--color-border);
   display: flex;
   align-items: center;
-  padding: 0 var(--space-4);
+  padding: 0 var(--space-5);
   gap: var(--space-3);
   position: sticky;
   top: 0;
@@ -12,47 +12,59 @@
   flex-shrink: 0;
 }
 
-/* ---- Hamburger (mobile only) ---- */
+/* ---- Mobile brand (logo + app name + church) ---- */
 
-.hamburger {
+.mobileBrand {
   display: none;
   align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
-  border: none;
-  background: transparent;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: background var(--duration-micro) var(--ease-out);
-  flex-shrink: 0;
+  gap: var(--space-2);
+  flex: 1;
+  min-width: 0;
 }
 
-.hamburger:hover {
-  background: var(--color-bg-02);
+.mobileBrandName {
+  font-size: 17px;
+  font-weight: 700;
   color: var(--color-text-primary);
+  letter-spacing: -0.03em;
+}
+
+.mobileChurch {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: var(--space-2);
+  border-left: 1px solid var(--color-border-mid);
+  margin-left: var(--space-1);
 }
 
 @media (max-width: 767px) {
-  .hamburger {
+  .mobileBrand {
     display: flex;
+  }
+
+  .title {
+    display: none;
   }
 }
 
-/* ---- Page title ---- */
+/* ---- Desktop: page title ---- */
 
 .title {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--color-text-primary);
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+  line-height: 1;
 }
 
-/* ---- Suporte controls ---- */
+/* ---- Suporte ---- */
 
 .suporteArea {
   display: flex;
@@ -93,18 +105,15 @@
 }
 
 @media (max-width: 767px) {
-  .suporteArea {
-    display: none; /* ocultado em mobile por espaço */
-  }
+  .suporteArea { display: none; }
 }
 
-/* ---- Notification bell ---- */
+/* ---- Actions (bell, user menu) ---- */
 
 .actions {
   display: flex;
   align-items: center;
   gap: var(--space-1);
-  margin-left: auto;
 }
 
 .iconBtn {
@@ -112,14 +121,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
   border: none;
   background: transparent;
   color: var(--color-text-secondary);
   cursor: pointer;
   transition: background var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .iconBtn:hover {
@@ -129,11 +139,148 @@
 
 .badge {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 8px;
+  right: 8px;
   width: 8px;
   height: 8px;
   border-radius: var(--radius-full);
   background: var(--color-danger);
   border: 2px solid var(--color-bg-01);
+}
+
+/* ---- User Menu ---- */
+
+.userMenu {
+  position: relative;
+}
+
+.avatarBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-border-mid);
+  background: var(--color-bg-03);
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color var(--duration-micro) var(--ease-out),
+    transform var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.avatarBtn:hover {
+  border-color: var(--color-brand-light);
+  transform: scale(1.05);
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarInitials {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-brand-light);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* ---- Dropdown ---- */
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  min-width: 220px;
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-modal);
+  z-index: 100;
+  overflow: hidden;
+  animation: dropdownIn var(--duration-enter) var(--ease-out);
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.dropdownHeader {
+  padding: var(--space-4);
+}
+
+.dropdownName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdownEmail {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  margin: 2px 0 0;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 0;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background var(--duration-micro) var(--ease-out),
+    color var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dropdownItem:hover {
+  background: var(--color-bg-03);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.dropdownItemDanger {
+  color: var(--color-danger);
+}
+
+.dropdownItemDanger:hover {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdown { animation: none; }
+  .avatarBtn { transition: border-color var(--duration-micro) var(--ease-out); }
 }

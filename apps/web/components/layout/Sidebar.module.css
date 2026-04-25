@@ -1,8 +1,4 @@
-/* ============================================================
-   Sidebar
-   Desktop: largura fixa, recolhível
-   Mobile: drawer off-canvas
-   ============================================================ */
+/* Sidebar — desktop only. Mobile usa BottomNav. */
 
 .sidebar {
   position: fixed;
@@ -16,8 +12,7 @@
   flex-direction: column;
   z-index: 50;
   transition:
-    width var(--duration-state) var(--ease-in-out),
-    transform var(--duration-state) var(--ease-in-out);
+    width var(--duration-state) var(--ease-in-out);
   overflow: hidden;
 }
 
@@ -30,11 +25,10 @@
 .logoRow {
   display: flex;
   align-items: center;
-  height: 56px;
+  height: 64px;
   padding: 0 var(--space-4);
   flex-shrink: 0;
-  border-bottom: 1px solid var(--color-border);
-  gap: var(--space-2);
+  gap: var(--space-3);
   overflow: hidden;
 }
 
@@ -48,7 +42,7 @@
   font-size: 18px;
   font-weight: 700;
   color: var(--color-text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   white-space: nowrap;
   transition: opacity var(--duration-micro) var(--ease-out);
 }
@@ -56,26 +50,51 @@
 .sidebar.collapsed .logoText {
   opacity: 0;
   pointer-events: none;
-  width: 0;
 }
 
 .sidebar.collapsed .logoRow {
   justify-content: center;
   padding: 0;
-  gap: 0;
 }
 
-/* ---- Nav ---- */
+/* ---- Church name ---- */
+
+.churchRow {
+  padding: 0 var(--space-4) var(--space-3);
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: opacity var(--duration-micro) var(--ease-out);
+}
+
+.churchName {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.sidebar.collapsed .churchRow {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- Divider before nav ---- */
 
 .nav {
   flex: 1;
-  padding: var(--space-3) var(--space-2);
+  padding: var(--space-2);
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 2px;
   overflow-y: auto;
   overflow-x: hidden;
+  border-top: 1px solid var(--color-border);
 }
+
+/* ---- Nav items ---- */
 
 .navItem {
   display: flex;
@@ -83,7 +102,7 @@
   gap: var(--space-3);
   height: 44px;
   padding: 0 var(--space-3);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   color: var(--color-text-secondary);
   text-decoration: none;
   font-size: 14px;
@@ -97,6 +116,7 @@
 }
 
 .navItem:hover {
+  text-decoration: none;
   background: var(--color-bg-02);
   color: var(--color-text-primary);
 }
@@ -110,8 +130,8 @@
   content: '';
   position: absolute;
   left: 0;
-  top: 8px;
-  bottom: 8px;
+  top: 10px;
+  bottom: 10px;
   width: 3px;
   background: var(--color-brand-light);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
@@ -124,6 +144,7 @@
 }
 
 .navLabel {
+  flex: 1;
   transition: opacity var(--duration-micro) var(--ease-out);
   overflow: hidden;
 }
@@ -133,29 +154,51 @@
   width: 0;
 }
 
-/* tooltip no modo colapsado */
 .sidebar.collapsed .navItem {
   justify-content: center;
   padding: 0;
 }
 
+.navDisabled {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+}
+
+.soonBadge {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  background: var(--color-bg-03);
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  transition: opacity var(--duration-micro) var(--ease-out);
+}
+
+.sidebar.collapsed .soonBadge {
+  display: none;
+}
 
 /* ---- User section ---- */
 
 .userSection {
-  padding: var(--space-3) var(--space-2);
+  padding: var(--space-2);
   border-top: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 2px;
+  flex-shrink: 0;
 }
 
 .userRow {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-2) var(--space-2);
-  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
@@ -173,6 +216,7 @@
   color: var(--color-brand-light);
   flex-shrink: 0;
   letter-spacing: 0.05em;
+  object-fit: cover;
 }
 
 .userInfo {
@@ -194,6 +238,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.3;
 }
 
 .userEmail {
@@ -210,7 +255,7 @@
   gap: var(--space-3);
   height: 40px;
   padding: 0 var(--space-3);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   border: none;
   background: transparent;
   color: var(--color-text-tertiary);
@@ -246,27 +291,16 @@
   padding: 0;
 }
 
-/* ============================================================
-   Mobile — drawer off-canvas
-   ============================================================ */
+/* ---- Mobile: sidebar oculta (BottomNav assume a navegação) ---- */
+
 @media (max-width: 767px) {
   .sidebar {
-    width: 240px; /* sempre largura completa quando aberto */
-    transform: translateX(-100%);
-  }
-
-  .sidebar.mobileOpen {
-    transform: translateX(0);
-  }
-
-  .sidebar.collapsed {
-    width: 240px; /* em mobile o estado colapsado não se aplica */
+    display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .sidebar,
   .navItem,
-  .collapseBtn,
   .logoutBtn { transition: none; }
 }

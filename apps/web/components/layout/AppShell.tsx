@@ -5,6 +5,7 @@ import { ChevronLeft } from 'lucide-react';
 import type { TokenPayload } from '@/lib/auth';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
+import { BottomNav } from './BottomNav';
 import styles from './AppShell.module.css';
 
 interface Props {
@@ -16,7 +17,6 @@ const COLLAPSED_KEY = 'sidebar_collapsed';
 
 export function AppShell({ session, children }: Props) {
   const [collapsed, setCollapsed] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem(COLLAPSED_KEY);
@@ -31,32 +31,10 @@ export function AppShell({ session, children }: Props) {
     });
   }
 
-  function openMobile() {
-    setMobileOpen(true);
-  }
-
-  function closeMobile() {
-    setMobileOpen(false);
-  }
-
   return (
     <div className={styles.shell}>
-      {mobileOpen && (
-        <div
-          className={styles.overlay}
-          onClick={closeMobile}
-          aria-hidden="true"
-        />
-      )}
+      <Sidebar session={session} collapsed={collapsed} />
 
-      <Sidebar
-        session={session}
-        collapsed={collapsed}
-        mobileOpen={mobileOpen}
-        onClose={closeMobile}
-      />
-
-      {/* Floating collapse handle — on the sidebar border, desktop only */}
       <button
         className={[styles.collapseHandle, collapsed ? styles.collapseHandleCollapsed : ''].filter(Boolean).join(' ')}
         onClick={toggleCollapse}
@@ -66,9 +44,11 @@ export function AppShell({ session, children }: Props) {
       </button>
 
       <div className={[styles.main, collapsed ? styles.collapsed : ''].filter(Boolean).join(' ')}>
-        <Topbar session={session} onMenuToggle={openMobile} />
+        <Topbar session={session} />
         <main className={styles.content}>{children}</main>
       </div>
+
+      <BottomNav />
     </div>
   );
 }

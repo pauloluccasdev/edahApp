@@ -1,7 +1,6 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { Inter } from 'next/font/google';
-
 import './globals.css';
 
 const inter = Inter({
@@ -12,8 +11,15 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Edah',
-  description: 'Gestão de escalas e ministérios',
+  description: 'Gestão de escalas e ministérios para igrejas',
   manifest: '/manifest.webmanifest',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#0F1824',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
