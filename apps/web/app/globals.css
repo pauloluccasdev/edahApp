@@ -1,9 +1,4 @@
-/* Importa os tokens do design system */
 @import '@edah/ui/src/tokens/tokens.css';
-
-/* ============================================================
-   Reset e base global
-   ============================================================ */
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -30,21 +25,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ============================================================
-   Tipografia base
-   ============================================================ */
-
 h1, h2, h3, h4, h5, h6 {
-  line-height: 1.2;
+  line-height: 1.25;
   color: var(--color-text-primary);
   font-weight: 600;
 }
 
-h1 { font-size: 18px; font-weight: 700; }
-h2 { font-size: 14px; font-weight: 600; }
-h3 { font-size: 12px; font-weight: 600; }
+h1 { font-size: clamp(20px, 4vw, 28px); font-weight: 700; }
+h2 { font-size: 16px; font-weight: 600; }
+h3 { font-size: 13px; font-weight: 600; }
 
-p { line-height: 1.6; color: var(--color-text-secondary); }
+p { line-height: 1.65; color: var(--color-text-secondary); }
 
 code, pre {
   font-family: var(--font-mono);
@@ -57,10 +48,6 @@ a {
 }
 a:hover { text-decoration: underline; }
 
-/* ============================================================
-   Scrollbar (webkit)
-   ============================================================ */
-
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--color-bg-01); }
 ::-webkit-scrollbar-thumb {
@@ -69,33 +56,15 @@ a:hover { text-decoration: underline; }
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-text-tertiary); }
 
-/* ============================================================
-   Focus global (acessibilidade)
-   ============================================================ */
-
 :focus-visible {
   outline: 2px solid var(--color-brand-light);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
-/* ============================================================
-   Seleção de texto
-   ============================================================ */
-
 ::selection {
   background: var(--color-brand-mid);
   color: var(--color-text-primary);
-}
-
-/* ============================================================
-   Utilitários de layout (uso pontual, preferir CSS Modules)
-   ============================================================ */
-
-.page {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
 }
 
 .sr-only {

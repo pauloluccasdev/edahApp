@@ -10,11 +10,9 @@ import styles from './Sidebar.module.css';
 interface Props {
   session: TokenPayload;
   collapsed: boolean;
-  mobileOpen: boolean;
-  onClose: () => void;
 }
 
-export function Sidebar({ session, collapsed, mobileOpen, onClose }: Props) {
+export function Sidebar({ session, collapsed }: Props) {
   const pathname = usePathname();
 
   const initials = (session.name ?? session.email ?? '?')
@@ -32,7 +30,6 @@ export function Sidebar({ session, collapsed, mobileOpen, onClose }: Props) {
   const sidebarClass = [
     styles.sidebar,
     collapsed ? styles.collapsed : '',
-    mobileOpen ? styles.mobileOpen : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -40,32 +37,40 @@ export function Sidebar({ session, collapsed, mobileOpen, onClose }: Props) {
   return (
     <aside className={sidebarClass} aria-label="Navegação principal">
 
-      {/* Logo */}
       <div className={styles.logoRow}>
         <LogoMark className={styles.logoMark} />
         <span className={styles.logoText}>Edah</span>
       </div>
 
-      {/* Nav */}
+      {session.churchName && (
+        <div className={styles.churchRow}>
+          <span className={styles.churchName}>{session.churchName}</span>
+        </div>
+      )}
+
       <nav className={styles.nav}>
-        {NAV_ITEMS.filter((item) => item.enabled).map(({ href, label, Icon, exact }) => {
+        {NAV_ITEMS.map(({ href, label, Icon, exact, enabled }) => {
           const isActive = exact ? pathname === href : pathname.startsWith(href);
           return (
             <Link
               key={href}
-              href={href}
-              className={[styles.navItem, isActive ? styles.active : ''].filter(Boolean).join(' ')}
-              onClick={onClose}
+              href={enabled ? href : '#'}
+              className={[
+                styles.navItem,
+                isActive ? styles.active : '',
+                !enabled ? styles.navDisabled : '',
+              ].filter(Boolean).join(' ')}
               title={collapsed ? label : undefined}
+              tabIndex={!enabled ? -1 : undefined}
             >
-              <Icon className={styles.navIcon} size={20} strokeWidth={1.5} />
+              <Icon className={styles.navIcon} size={20} strokeWidth={isActive ? 2 : 1.5} />
               <span className={styles.navLabel}>{label}</span>
+              {!enabled && <span className={styles.soonBadge}>Em breve</span>}
             </Link>
           );
         })}
       </nav>
 
-      {/* User + Logout */}
       <div className={styles.userSection}>
         <div className={styles.userRow}>
           {session.avatarUrl ? (

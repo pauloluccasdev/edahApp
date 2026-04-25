@@ -4,21 +4,12 @@
   background: var(--color-bg-base);
 }
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(8, 14, 24, 0.65);
-  z-index: 40;
-  backdrop-filter: blur(2px);
-  animation: fadeIn var(--duration-enter) var(--ease-out);
-}
-
-/* ---- Floating collapse handle ---- */
+/* ---- Floating collapse handle (desktop only) ---- */
 
 .collapseHandle {
   position: fixed;
-  top: calc(56px / 2);           /* centro vertical da logoRow */
-  left: calc(240px - 10px);      /* borda da sidebar expandida */
+  top: calc(64px / 2);
+  left: calc(240px - 10px);
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
@@ -36,11 +27,9 @@
     left var(--duration-state) var(--ease-in-out),
     transform var(--duration-state) var(--ease-in-out),
     opacity var(--duration-micro) var(--ease-out),
-    background var(--duration-micro) var(--ease-out),
-    color var(--duration-micro) var(--ease-out);
+    background var(--duration-micro) var(--ease-out);
 }
 
-/* Visível ao passar o mouse na shell */
 .shell:hover .collapseHandle {
   opacity: 1;
 }
@@ -51,11 +40,10 @@
   border-color: var(--color-brand-light);
 }
 
-/* Estado colapsado: reposiciona + gira a seta */
 .collapseHandleCollapsed {
   left: calc(64px - 10px);
   transform: translateY(-50%) rotate(180deg);
-  opacity: 1; /* sempre visível quando colapsado */
+  opacity: 1;
 }
 
 .collapseHandleCollapsed:hover {
@@ -93,15 +81,14 @@
   .collapseHandle {
     display: none;
   }
-}
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  /* espaço para o BottomNav */
+  .content {
+    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .main { transition: none; }
-  .overlay { animation: none; }
   .collapseHandle { transition: opacity var(--duration-micro) var(--ease-out); }
 }
