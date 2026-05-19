@@ -41,6 +41,19 @@ export class SupabaseAuthService {
     return data.user.id;
   }
 
+  async inviteUser(email: string): Promise<{ supabaseId: string; inviteLink: string }> {
+    const { data, error } = await this.client.auth.admin.generateLink({
+      type: 'invite',
+      email,
+    });
+
+    if (error || !data.user) {
+      throw new InternalServerErrorException('Erro ao enviar convite de acesso ao usuário.');
+    }
+
+    return { supabaseId: data.user.id, inviteLink: data.properties.action_link };
+  }
+
   async deleteUser(supabaseUserId: string): Promise<void> {
     await this.client.auth.admin.deleteUser(supabaseUserId);
   }

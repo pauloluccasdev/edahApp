@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { DatabaseModule } from '../../database/database.module';
 import { AuthController } from './controllers/auth.controller';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { SuporteGuard } from './guards/suporte.guard';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { SupabaseAuthService } from './services/supabase-auth.service';
 import { TokenService } from './services/token.service';
@@ -38,7 +39,8 @@ import { RolesGuard } from './guards/roles.guard';
     JwtStrategy,
     JwtAuthGuard,
     RolesGuard,
+    SuporteGuard,
   ],
-  exports: [JwtAuthGuard, JwtStrategy, RolesGuard],
+  exports: [JwtAuthGuard, JwtStrategy, RolesGuard, SuporteGuard, SupabaseAuthService],
 })
 export class AuthModule {}

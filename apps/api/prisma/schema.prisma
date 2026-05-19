@@ -72,13 +72,18 @@ model Church {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name      String
   slug      String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
+  logoUrl        String?  @map("logo_url")
+  timezone       String   @default("America/Sao_Paulo")
+  auxiliarLimit  Int      @default(1) @map("auxiliar_limit")
+  createdAt      DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   users         User[]
+  churchRoles   ChurchRoleAssignment[]
   departments   Department[]
   events        Event[]
   notifications Notification[]
+  auditLogs     AuditLog[]
 
   @@map("churches")
 }
@@ -111,6 +116,7 @@ model User {
   attendance            Attendance[]
   serviceTimelineItems  ServiceTimeline[]
   notifications         Notification[]
+  auditLogsAsOperator   AuditLog[]
 
   @@map("users")
 }
@@ -122,7 +128,8 @@ model ChurchRoleAssignment {
   role      ChurchRole
   createdAt DateTime   @default(now()) @map("created_at")
 
-  user User @relation(fields: [userId], references: [id])
+  church Church @relation(fields: [churchId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 
   @@unique([churchId, userId, role])
   @@map("church_roles")
@@ -401,4 +408,18 @@ model Notification {
   recipient User   @relation(fields: [recipientId], references: [id])
 
   @@map("notifications")
+}
+
+model AuditLog {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  operatorId String   @map("operator_id") @db.Uuid
+  churchId   String?  @map("church_id") @db.Uuid
+  action     String
+  payload    Json     @default("{}")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  operator User    @relation(fields: [operatorId], references: [id])
+  church   Church? @relation(fields: [churchId], references: [id])
+
+  @@map("audit_logs")
 }
