@@ -1,9 +1,10 @@
 import {
-  LayoutDashboard,
+  Building2,
   Calendar,
-  Users,
   CheckSquare,
+  LayoutDashboard,
   Music,
+  Users,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -13,6 +14,7 @@ export interface NavItem {
   Icon: LucideIcon;
   exact?: boolean;
   enabled: boolean;
+  suporteOnly?: boolean;
 }
 
 export const NAV_ITEMS: NavItem[] = [
@@ -21,4 +23,5 @@ export const NAV_ITEMS: NavItem[] = [
   { href: '/dashboard/membros',     label: 'Membros',     Icon: Users,                        enabled: false },
   { href: '/dashboard/presenca',    label: 'Presença',    Icon: CheckSquare,                  enabled: false },
   { href: '/dashboard/ministerios', label: 'Ministérios', Icon: Music,                        enabled: false },
+  { href: '/admin/igrejas',         label: 'Igrejas',     Icon: Building2,                    enabled: true, suporteOnly: true },
 ];

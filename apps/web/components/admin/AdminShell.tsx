@@ -2,20 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { ChevronLeft } from 'lucide-react';
+
 import type { TokenPayload } from '@/lib/auth';
-import { Sidebar } from './Sidebar';
-import { Topbar } from './Topbar';
-import { BottomNav } from './BottomNav';
-import styles from './AppShell.module.css';
+import { BottomNav } from '@/components/layout/BottomNav';
+import { AdminSidebar } from './AdminSidebar';
+import { AdminTopbar } from './AdminTopbar';
+import styles from './AdminShell.module.css';
 
 interface Props {
   session: TokenPayload;
   children: React.ReactNode;
 }
 
-const COLLAPSED_KEY = 'sidebar_collapsed';
+const COLLAPSED_KEY = 'admin_sidebar_collapsed';
 
-export function AppShell({ session, children }: Props) {
+export function AdminShell({ session, children }: Props) {
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
@@ -33,10 +34,12 @@ export function AppShell({ session, children }: Props) {
 
   return (
     <div className={styles.shell}>
-      <Sidebar session={session} collapsed={collapsed} />
+      <AdminSidebar session={session} collapsed={collapsed} />
 
       <button
-        className={[styles.collapseHandle, collapsed ? styles.collapseHandleCollapsed : ''].filter(Boolean).join(' ')}
+        className={[styles.collapseHandle, collapsed ? styles.collapseHandleCollapsed : '']
+          .filter(Boolean)
+          .join(' ')}
         onClick={toggleCollapse}
         aria-label={collapsed ? 'Expandir menu' : 'Recolher menu'}
       >
@@ -44,7 +47,7 @@ export function AppShell({ session, children }: Props) {
       </button>
 
       <div className={[styles.main, collapsed ? styles.collapsed : ''].filter(Boolean).join(' ')}>
-        <Topbar session={session} />
+        <AdminTopbar session={session} />
         <main className={styles.content}>{children}</main>
       </div>
 

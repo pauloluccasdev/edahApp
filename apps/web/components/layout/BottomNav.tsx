@@ -3,14 +3,20 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NAV_ITEMS } from '@/lib/nav';
+import type { TokenPayload } from '@/lib/auth';
 import styles from './BottomNav.module.css';
 
-export function BottomNav() {
+interface Props {
+  session: TokenPayload;
+}
+
+export function BottomNav({ session }: Props) {
   const pathname = usePathname();
+  const visibleItems = NAV_ITEMS.filter((item) => !item.suporteOnly || session.isSuporte);
 
   return (
     <nav className={styles.nav} aria-label="Navegação principal">
-      {NAV_ITEMS.map(({ href, label, Icon, exact, enabled }) => {
+      {visibleItems.map(({ href, label, Icon, exact, enabled }) => {
         const isActive = exact ? pathname === href : pathname.startsWith(href);
         return (
           <Link

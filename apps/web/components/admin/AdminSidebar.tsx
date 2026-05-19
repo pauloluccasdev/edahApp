@@ -3,16 +3,17 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LogOut } from 'lucide-react';
-import { NAV_ITEMS } from '@/lib/nav';
+
 import type { TokenPayload } from '@/lib/auth';
-import styles from './Sidebar.module.css';
+import { ADMIN_NAV_ITEMS } from '@/lib/admin-nav';
+import styles from './AdminSidebar.module.css';
 
 interface Props {
   session: TokenPayload;
   collapsed: boolean;
 }
 
-export function Sidebar({ session, collapsed }: Props) {
+export function AdminSidebar({ session, collapsed }: Props) {
   const pathname = usePathname();
 
   const initials = (session.name ?? session.email ?? '?')
@@ -27,30 +28,21 @@ export function Sidebar({ session, collapsed }: Props) {
     window.location.href = '/auth/login';
   }
 
-  const sidebarClass = [
-    styles.sidebar,
-    collapsed ? styles.collapsed : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const sidebarClass = [styles.sidebar, collapsed ? styles.collapsed : ''].filter(Boolean).join(' ');
 
   return (
-    <aside className={sidebarClass} aria-label="Navegação principal">
-
+    <aside className={sidebarClass} aria-label="Painel de suporte">
       <div className={styles.logoRow}>
         <LogoMark className={styles.logoMark} />
-        <span className={styles.logoText}>Edah</span>
+        <div className={styles.logoInfo}>
+          <span className={styles.logoText}>Edah</span>
+          <span className={styles.suporteBadge}>Suporte</span>
+        </div>
       </div>
 
-      {session.churchName && (
-        <div className={styles.churchRow}>
-          <span className={styles.churchName}>{session.churchName}</span>
-        </div>
-      )}
-
       <nav className={styles.nav}>
-        {NAV_ITEMS.filter((item) => !item.suporteOnly || session.isSuporte).map(({ href, label, Icon, exact, enabled }) => {
-          const isActive = exact ? pathname === href : pathname.startsWith(href);
+        {ADMIN_NAV_ITEMS.map(({ href, label, Icon, enabled }) => {
+          const isActive = pathname.startsWith(href);
           return (
             <Link
               key={href}
@@ -59,7 +51,9 @@ export function Sidebar({ session, collapsed }: Props) {
                 styles.navItem,
                 isActive ? styles.active : '',
                 !enabled ? styles.navDisabled : '',
-              ].filter(Boolean).join(' ')}
+              ]
+                .filter(Boolean)
+                .join(' ')}
               title={collapsed ? label : undefined}
               tabIndex={!enabled ? -1 : undefined}
             >
@@ -81,7 +75,7 @@ export function Sidebar({ session, collapsed }: Props) {
           )}
           <div className={styles.userInfo}>
             <p className={styles.userName}>{session.name}</p>
-            <p className={styles.userEmail}>{session.email}</p>
+            <p className={styles.userRole}>Suporte</p>
           </div>
         </div>
 
@@ -94,7 +88,6 @@ export function Sidebar({ session, collapsed }: Props) {
           <span className={styles.logoutLabel}>Sair</span>
         </button>
       </div>
-
     </aside>
   );
 }
