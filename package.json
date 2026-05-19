@@ -1,9 +1,19 @@
 {
   "name": "edahApp",
   "private": true,
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "dev": "pnpm --filter web dev & pnpm --filter api dev & wait",
     "docker:up": "sh ./scripts/docker-up.sh",
     "docker:down": "sh ./scripts/docker-down.sh"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@prisma/engines",
+      "prisma",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }
