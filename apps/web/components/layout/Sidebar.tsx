@@ -49,7 +49,7 @@ export function Sidebar({ session, collapsed }: Props) {
       )}
 
       <nav className={styles.nav}>
-        {NAV_ITEMS.map(({ href, label, Icon, exact, enabled }) => {
+        {NAV_ITEMS.filter((item) => !item.suporteOnly || session.isSuporte).map(({ href, label, Icon, exact, enabled }) => {
           const isActive = exact ? pathname === href : pathname.startsWith(href);
           return (
             <Link

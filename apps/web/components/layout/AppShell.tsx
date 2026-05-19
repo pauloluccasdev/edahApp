@@ -48,7 +48,7 @@ export function AppShell({ session, children }: Props) {
         <main className={styles.content}>{children}</main>
       </div>
 
-      <BottomNav />
+      <BottomNav session={session} />
     </div>
   );
 }
