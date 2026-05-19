@@ -1,0 +1,692 @@
+/* ====================================================
+   Church Detail — Mobile-first
+   ==================================================== */
+
+.page {
+  padding: var(--space-4);
+  padding-bottom: calc(var(--space-8) + 60px + env(safe-area-inset-bottom, 0px));
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ---- Nav header ---- */
+
+.navHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition:
+    background var(--duration-micro) var(--ease-out),
+    color var(--duration-micro) var(--ease-out);
+}
+
+.backBtn:hover {
+  background: var(--color-bg-03);
+  color: var(--color-text-primary);
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+}
+
+/* ---- Created banner (FE-02.6) ---- */
+
+.createdBanner {
+  background: color-mix(in srgb, var(--color-success) 10%, var(--color-bg-02));
+  border: 1px solid color-mix(in srgb, var(--color-success) 35%, transparent);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  animation: bannerIn var(--duration-enter) var(--ease-out);
+}
+
+@keyframes bannerIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.bannerContent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 0;
+}
+
+.bannerIcon {
+  color: var(--color-success);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.bannerTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+
+.bannerText {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.bannerClose {
+  background: transparent;
+  border: none;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  transition: color var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bannerClose:hover {
+  color: var(--color-text-primary);
+}
+
+/* ---- Success toast ---- */
+
+.successToast {
+  background: var(--color-success-bg);
+  border: 1px solid color-mix(in srgb, var(--color-success) 40%, transparent);
+  border-radius: var(--radius-md);
+  color: var(--color-success);
+  font-size: 13px;
+  font-weight: 500;
+  padding: var(--space-3) var(--space-4);
+  animation: bannerIn var(--duration-enter) var(--ease-out);
+}
+
+/* ---- Church header ---- */
+
+.churchHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.churchIconWrap {
+  width: 52px;
+  height: 52px;
+  background: var(--color-bg-03);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.churchLogo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.churchMeta {
+  flex: 1;
+  min-width: 0;
+}
+
+.churchName {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.churchSlug {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  font-family: var(--font-mono);
+}
+
+.editBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-bg-03);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background var(--duration-micro) var(--ease-out),
+    color var(--duration-micro) var(--ease-out),
+    border-color var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.editBtn:hover {
+  background: var(--color-bg-04);
+  color: var(--color-text-primary);
+  border-color: var(--color-brand-light);
+}
+
+/* ---- Section card ---- */
+
+.section {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sectionTitle {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ---- Info list ---- */
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+}
+
+.infoRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.infoRow:first-child {
+  padding-top: 0;
+}
+
+.infoLabel {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+
+.infoValue {
+  font-size: 13px;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  text-align: right;
+  margin: 0;
+  word-break: break-all;
+}
+
+/* ---- Pastor cards ---- */
+
+.pastorList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.pastorCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-bg-02);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+.pastorAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--color-brand-deep);
+  color: var(--color-brand-pale);
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pastorInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.pastorName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pastorEmail {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  margin: 2px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pastorRole {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-brand-light);
+  background: var(--color-info-bg);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ---- Pastor remove button ---- */
+
+.removePastorBtn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    color var(--duration-micro) var(--ease-out),
+    border-color var(--duration-micro) var(--ease-out),
+    background var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.removePastorBtn:hover:not(:disabled) {
+  color: var(--color-danger);
+  background: var(--color-danger-bg);
+  border-color: color-mix(in srgb, var(--color-danger) 30%, transparent);
+}
+
+.removePastorBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---- Add auxiliar ---- */
+
+.addAuxiliarBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: transparent;
+  border: 1px dashed var(--color-border-mid);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-tertiary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  width: 100%;
+  transition:
+    color var(--duration-micro) var(--ease-out),
+    border-color var(--duration-micro) var(--ease-out),
+    background var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.addAuxiliarBtn:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-brand-light);
+  background: var(--color-bg-02);
+}
+
+.addAuxiliarForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.addAuxiliarFields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.addAuxiliarActions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+.addAuxiliarActions .cancelBtn,
+.addAuxiliarActions .saveBtn {
+  width: auto;
+  height: 40px;
+  font-size: 13px;
+  min-width: 100px;
+}
+
+.limitReachedMsg {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  text-align: center;
+  padding: var(--space-2) 0;
+  margin: 0;
+}
+
+/* ---- Future placeholder ---- */
+
+.sectionFuture {
+  opacity: 0.6;
+  border-style: dashed;
+}
+
+.futureText {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ---- Edit form ---- */
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.input {
+  height: 48px;
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  padding: 0 var(--space-3);
+  width: 100%;
+  box-sizing: border-box;
+  transition:
+    border-color var(--duration-micro) var(--ease-out),
+    background var(--duration-micro) var(--ease-out);
+  -webkit-appearance: none;
+}
+
+.input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-brand-light);
+  background: var(--color-bg-03);
+}
+
+.inputError {
+  border-color: var(--color-danger);
+}
+
+.select {
+  height: 48px;
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  padding: 0 var(--space-3);
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234E6080' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  padding-right: var(--space-8);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-brand-light);
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+.errorMsg {
+  font-size: 12px;
+  color: var(--color-danger);
+  margin: 0;
+}
+
+.generalError {
+  background: var(--color-danger-bg);
+  border: 1px solid color-mix(in srgb, var(--color-danger) 40%, transparent);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  font-size: 13px;
+  padding: var(--space-3) var(--space-4);
+}
+
+/* ---- Edit actions ---- */
+
+.editActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.saveBtn {
+  height: 52px;
+  background: var(--color-brand-mid);
+  border: none;
+  border-radius: var(--radius-lg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition:
+    background var(--duration-micro) var(--ease-out),
+    opacity var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.saveBtn:not(:disabled):hover {
+  background: var(--color-brand-light);
+}
+
+.saveBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cancelBtn {
+  height: 48px;
+  background: transparent;
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  transition:
+    background var(--duration-micro) var(--ease-out),
+    color var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cancelBtn:not(:disabled):hover {
+  background: var(--color-bg-02);
+  color: var(--color-text-primary);
+}
+
+.cancelBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---- Desktop ---- */
+
+@media (min-width: 768px) {
+  .page {
+    padding: var(--space-8);
+    padding-bottom: var(--space-8);
+    gap: var(--space-5);
+  }
+
+  .section {
+    padding: var(--space-6);
+  }
+
+  .churchName {
+    font-size: 22px;
+  }
+
+  .infoList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-1);
+  }
+
+  .infoRow {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--space-1);
+    padding: var(--space-3);
+    border-bottom: none;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-02);
+  }
+
+  .infoLabel {
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .infoValue {
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .editActions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .saveBtn {
+    width: auto;
+    min-width: 180px;
+  }
+
+  .cancelBtn {
+    width: auto;
+    min-width: 120px;
+  }
+}
+
+@media (min-width: 768px) {
+  .addAuxiliarFields {
+    flex-direction: row;
+  }
+
+  .addAuxiliarFields .input {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .createdBanner,
+  .successToast { animation: none; }
+  .backBtn,
+  .editBtn,
+  .addAuxiliarBtn,
+  .removePastorBtn,
+  .input,
+  .select,
+  .saveBtn,
+  .cancelBtn { transition: none; }
+}
