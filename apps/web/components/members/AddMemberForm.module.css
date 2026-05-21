@@ -1,0 +1,211 @@
+.wrapper {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-modal);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.closeBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-02);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.closeBtn:hover {
+  background: var(--color-bg-03);
+  color: var(--color-text-primary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.formError {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--color-danger);
+}
+
+.conflictMsg {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-warning-bg);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--color-warning);
+}
+
+.conflictMsg p {
+  margin: 0;
+}
+
+.required {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-text-tertiary);
+  margin-left: var(--space-1);
+}
+
+.fields {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.input,
+.select {
+  height: 40px;
+  padding: 0 var(--space-3);
+  background: var(--color-bg-01);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--duration-micro) var(--ease-out);
+  width: 100%;
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--color-brand-light);
+}
+
+.inputError {
+  border-color: var(--color-danger);
+}
+
+.select {
+  cursor: pointer;
+}
+
+.select:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.fieldError {
+  font-size: 12px;
+  color: var(--color-danger);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+}
+
+.cancelBtn {
+  height: 36px;
+  padding: 0 var(--space-4);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cancelBtn:hover {
+  background: var(--color-bg-02);
+}
+
+.submitBtn {
+  height: 36px;
+  padding: 0 var(--space-5);
+  background: var(--color-brand-mid);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: opacity var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.spinner {
+  display: block;
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: var(--radius-full);
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 767px) {
+  .fields {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+  .input, .select { transition: none; }
+}
