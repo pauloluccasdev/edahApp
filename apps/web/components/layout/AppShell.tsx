@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft } from 'lucide-react';
 import type { TokenPayload } from '@/lib/auth';
+import { ChurchProvider } from '@/lib/church-context';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { BottomNav } from './BottomNav';
@@ -32,23 +33,25 @@ export function AppShell({ session, children }: Props) {
   }
 
   return (
-    <div className={styles.shell}>
-      <Sidebar session={session} collapsed={collapsed} />
+    <ChurchProvider>
+      <div className={styles.shell}>
+        <Sidebar session={session} collapsed={collapsed} />
 
-      <button
-        className={[styles.collapseHandle, collapsed ? styles.collapseHandleCollapsed : ''].filter(Boolean).join(' ')}
-        onClick={toggleCollapse}
-        aria-label={collapsed ? 'Expandir menu' : 'Recolher menu'}
-      >
-        <ChevronLeft size={12} strokeWidth={2.5} />
-      </button>
+        <button
+          className={[styles.collapseHandle, collapsed ? styles.collapseHandleCollapsed : ''].filter(Boolean).join(' ')}
+          onClick={toggleCollapse}
+          aria-label={collapsed ? 'Expandir menu' : 'Recolher menu'}
+        >
+          <ChevronLeft size={12} strokeWidth={2.5} />
+        </button>
 
-      <div className={[styles.main, collapsed ? styles.collapsed : ''].filter(Boolean).join(' ')}>
-        <Topbar session={session} />
-        <main className={styles.content}>{children}</main>
+        <div className={[styles.main, collapsed ? styles.collapsed : ''].filter(Boolean).join(' ')}>
+          <Topbar session={session} />
+          <main className={styles.content}>{children}</main>
+        </div>
+
+        <BottomNav session={session} />
       </div>
-
-      <BottomNav session={session} />
-    </div>
+    </ChurchProvider>
   );
 }
