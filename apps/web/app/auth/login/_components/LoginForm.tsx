@@ -44,7 +44,7 @@ export function LoginForm() {
         return;
       }
 
-      window.location.href = '/dashboard';  // redirect pós-login
+      window.location.href = '/church-select';
     } catch {
       setErrors({ form: 'Não foi possível conectar. Tente novamente.' });
     } finally {
