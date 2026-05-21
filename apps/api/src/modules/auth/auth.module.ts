@@ -41,6 +41,6 @@ import { RolesGuard } from './guards/roles.guard';
     RolesGuard,
     SuporteGuard,
   ],
-  exports: [JwtAuthGuard, JwtStrategy, RolesGuard, SuporteGuard, SupabaseAuthService],
+  exports: [JwtAuthGuard, JwtStrategy, RolesGuard, SuporteGuard, SupabaseAuthService, TokenService],
 })
 export class AuthModule {}

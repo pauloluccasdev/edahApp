@@ -81,6 +81,7 @@ model Church {
   users         User[]
   churchRoles   ChurchRoleAssignment[]
   departments   Department[]
+  inviteTokens  InviteToken[]
   events        Event[]
   notifications Notification[]
   auditLogs     AuditLog[]
@@ -117,6 +118,7 @@ model User {
   serviceTimelineItems  ServiceTimeline[]
   notifications         Notification[]
   auditLogsAsOperator   AuditLog[]
+  sentInvites           InviteToken[] @relation("SentInvites")
 
   @@map("users")
 }
@@ -147,6 +149,7 @@ model Department {
   church             Church              @relation(fields: [churchId], references: [id])
   leader             User?               @relation("DepartmentLeader", fields: [leaderId], references: [id])
   members            DepartmentMember[]
+  inviteTokens       InviteToken[]
   eventDepartments   EventDepartment[]
   eventNotifications EventNotification[]
   schedules          Schedule[]
@@ -408,6 +411,27 @@ model Notification {
   recipient User   @relation(fields: [recipientId], references: [id])
 
   @@map("notifications")
+}
+
+model InviteToken {
+  id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId     String     @map("church_id") @db.Uuid
+  departmentId String?    @map("department_id") @db.Uuid
+  invitedBy    String     @map("invited_by") @db.Uuid
+  email        String
+  role         ChurchRole
+  token        String     @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  expiresAt    DateTime   @map("expires_at")
+  usedAt       DateTime?  @map("used_at")
+  createdAt    DateTime   @default(now()) @map("created_at")
+
+  church     Church      @relation(fields: [churchId], references: [id])
+  department Department? @relation(fields: [departmentId], references: [id])
+  inviter    User        @relation("SentInvites", fields: [invitedBy], references: [id])
+
+  @@index([token])
+  @@index([email, churchId])
+  @@map("invite_tokens")
 }
 
 model AuditLog {

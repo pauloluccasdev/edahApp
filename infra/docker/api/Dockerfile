@@ -2,6 +2,8 @@ FROM node:22-slim
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y procps --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
 RUN corepack enable
 
 COPY package.json pnpm-workspace.yaml ./
@@ -16,5 +18,5 @@ RUN pnpm install
 
 EXPOSE 3001
 
-# prisma generate roda no startup: nesse momento as env vars e o volume já estão disponíveis
-CMD ["sh", "-c", "pnpm --filter api prisma:generate && pnpm --filter api start:dev"]
+# prisma generate e migrate deploy rodam no startup: env vars e volume já disponíveis
+CMD ["sh", "-c", "pnpm --filter api prisma:generate && pnpm --filter api prisma:migrate:deploy; pnpm --filter api start:dev"]

@@ -2,7 +2,10 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const LOGIN_PATH = '/auth/login';
-const PUBLIC_PATHS = [LOGIN_PATH, '/esqueceu-senha'];
+const PUBLIC_PATHS = [LOGIN_PATH, '/esqueceu-senha', '/invite'];
+// Rotas públicas onde usuários autenticados NÃO devem ser redirecionados ao dashboard
+// (ex: aceitar convite mesmo estando logado)
+const AUTH_PASSTHROUGH = ['/invite'];
 const AUTH_REDIRECT = '/dashboard';
 
 export function middleware(request: NextRequest) {
@@ -10,9 +13,11 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('edah_token')?.value;
 
   const isPublic = PUBLIC_PATHS.some((p) => pathname.startsWith(p));
+  const isAuthPassthrough = AUTH_PASSTHROUGH.some((p) => pathname.startsWith(p));
 
   // Já autenticado tentando acessar página pública → redireciona pro dashboard
-  if (isPublic && token) {
+  // Exceto rotas de passthrough (ex: /invite) onde o usuário logado também pode acessar
+  if (isPublic && token && !isAuthPassthrough) {
     return NextResponse.redirect(new URL(AUTH_REDIRECT, request.url));
   }
 

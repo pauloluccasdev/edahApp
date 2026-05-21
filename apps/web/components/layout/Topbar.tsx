@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Bell, User, LogOut } from 'lucide-react';
 import { NAV_ITEMS } from '@/lib/nav';
 import type { TokenPayload } from '@/lib/auth';
+import { ChurchSwitcher } from './ChurchSwitcher';
 import styles from './Topbar.module.css';
 
 const CHURCH_ROLES = [
@@ -98,6 +99,8 @@ export function Topbar({ session }: Props) {
       )}
 
       <div className={styles.actions}>
+        <ChurchSwitcher />
+
         <button className={styles.iconBtn} aria-label="Notificações">
           <Bell size={18} strokeWidth={1.5} />
         </button>
