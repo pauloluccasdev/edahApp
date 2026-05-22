@@ -8,6 +8,20 @@ export class ListMyChurchesUseCase {
   constructor(private readonly prisma: PrismaService) {}
 
   async execute(operator: AuthenticatedUser) {
+    if (operator.isSuporte) {
+      const churches = await this.prisma.church.findMany({
+        select: { id: true, name: true, slug: true, logoUrl: true },
+        orderBy: { name: 'asc' },
+      });
+      return churches.map((church) => ({
+        churchId: church.id,
+        name: church.name,
+        slug: church.slug,
+        logoUrl: church.logoUrl,
+        role: 'pastor_central' as const,
+      }));
+    }
+
     const assignments = await this.prisma.churchRoleAssignment.findMany({
       where: { userId: operator.id },
       include: {
