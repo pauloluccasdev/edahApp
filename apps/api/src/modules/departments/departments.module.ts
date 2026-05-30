@@ -6,6 +6,7 @@ import { AuthModule } from '../auth/auth.module';
 import { DepartmentsController } from './controllers/departments.controller';
 import { DepartmentFieldSeederService } from './services/department-field-seeder.service';
 import { CreateDepartmentUseCase } from './use-cases/create-department.use-case';
+import { DeactivateDepartmentUseCase } from './use-cases/deactivate-department.use-case';
 import { GetDepartmentUseCase } from './use-cases/get-department.use-case';
 import { ListDepartmentsUseCase } from './use-cases/list-departments.use-case';
 import { UpdateDepartmentUseCase } from './use-cases/update-department.use-case';
@@ -19,6 +20,7 @@ import { UpdateDepartmentUseCase } from './use-cases/update-department.use-case'
     ListDepartmentsUseCase,
     GetDepartmentUseCase,
     UpdateDepartmentUseCase,
+    DeactivateDepartmentUseCase,
   ],
   exports: [DepartmentFieldSeederService],
 })

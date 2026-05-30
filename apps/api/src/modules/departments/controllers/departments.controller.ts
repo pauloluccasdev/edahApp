@@ -17,6 +17,7 @@ import { AuthenticatedUser } from '../../auth/interfaces/authenticated-user.inte
 import { CreateDepartmentDto } from '../dto/create-department.dto';
 import { UpdateDepartmentDto } from '../dto/update-department.dto';
 import { CreateDepartmentUseCase } from '../use-cases/create-department.use-case';
+import { DeactivateDepartmentUseCase } from '../use-cases/deactivate-department.use-case';
 import { GetDepartmentUseCase } from '../use-cases/get-department.use-case';
 import { ListDepartmentsUseCase } from '../use-cases/list-departments.use-case';
 import { UpdateDepartmentUseCase } from '../use-cases/update-department.use-case';
@@ -29,6 +30,7 @@ export class DepartmentsController {
     private readonly listDepartments: ListDepartmentsUseCase,
     private readonly getDepartment: GetDepartmentUseCase,
     private readonly updateDepartment: UpdateDepartmentUseCase,
+    private readonly deactivateDepartment: DeactivateDepartmentUseCase,
   ) {}
 
   @Post('churches/:churchId/departments')
@@ -67,5 +69,15 @@ export class DepartmentsController {
     @CurrentUser() operator: AuthenticatedUser,
   ) {
     return this.updateDepartment.execute(churchId, departmentId, dto, operator);
+  }
+
+  @Patch('churches/:churchId/departments/:departmentId/deactivate')
+  @HttpCode(HttpStatus.OK)
+  deactivate(
+    @Param('churchId', ParseUUIDPipe) churchId: string,
+    @Param('departmentId', ParseUUIDPipe) departmentId: string,
+    @CurrentUser() operator: AuthenticatedUser,
+  ) {
+    return this.deactivateDepartment.execute(churchId, departmentId, operator);
   }
 }
