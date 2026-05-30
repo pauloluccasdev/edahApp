@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DepartmentTemplate } from '@prisma/client';
+import { DepartmentTemplate, PrismaClient } from '@prisma/client';
 
 import { PrismaService } from '../../../database/prisma.service';
 
@@ -15,7 +15,7 @@ const TEMPLATE_FIELDS: Partial<Record<DepartmentTemplate, FieldSeed[]>> = {
 };
 
 type TxClient = Omit<
-  PrismaService,
+  PrismaClient,
   '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
 >;
 
