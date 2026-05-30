@@ -22,6 +22,6 @@ export const NAV_ITEMS: NavItem[] = [
   { href: '/dashboard/escalas',     label: 'Escalas',     Icon: Calendar,                     enabled: false },
   { href: '/dashboard/membros',     label: 'Membros',     Icon: Users,                        enabled: true  },
   { href: '/dashboard/presenca',    label: 'Presença',    Icon: CheckSquare,                  enabled: false },
-  { href: '/dashboard/ministerios', label: 'Ministérios', Icon: Music,                        enabled: false },
+  { href: '/dashboard/ministerios', label: 'Ministérios', Icon: Music,                        enabled: true  },
   { href: '/admin/igrejas',         label: 'Igrejas',     Icon: Building2,                    enabled: true, suporteOnly: true },
 ];
