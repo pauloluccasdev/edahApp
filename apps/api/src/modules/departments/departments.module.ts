@@ -6,11 +6,20 @@ import { AuthModule } from '../auth/auth.module';
 import { DepartmentsController } from './controllers/departments.controller';
 import { DepartmentFieldSeederService } from './services/department-field-seeder.service';
 import { CreateDepartmentUseCase } from './use-cases/create-department.use-case';
+import { GetDepartmentUseCase } from './use-cases/get-department.use-case';
+import { ListDepartmentsUseCase } from './use-cases/list-departments.use-case';
+import { UpdateDepartmentUseCase } from './use-cases/update-department.use-case';
 
 @Module({
   imports: [DatabaseModule, AuthModule, AuditModule],
   controllers: [DepartmentsController],
-  providers: [CreateDepartmentUseCase, DepartmentFieldSeederService],
+  providers: [
+    DepartmentFieldSeederService,
+    CreateDepartmentUseCase,
+    ListDepartmentsUseCase,
+    GetDepartmentUseCase,
+    UpdateDepartmentUseCase,
+  ],
   exports: [DepartmentFieldSeederService],
 })
 export class DepartmentsModule {}
