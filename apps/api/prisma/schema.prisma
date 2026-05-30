@@ -64,6 +64,17 @@ enum ConflictDecision {
   leader_decided
 }
 
+enum DepartmentTemplate {
+  louvor
+  gc
+  midia
+  discipulado
+  adolescentes
+  danca
+  cronograma_culto
+  personalizado
+}
+
 // ---------------------------------------------------------------------------
 // Models
 // ---------------------------------------------------------------------------
@@ -118,7 +129,8 @@ model User {
   serviceTimelineItems  ServiceTimeline[]
   notifications         Notification[]
   auditLogsAsOperator   AuditLog[]
-  sentInvites           InviteToken[] @relation("SentInvites")
+  sentInvites           InviteToken[]       @relation("SentInvites")
+  filledFieldValues     ScheduleFieldValue[] @relation("ScheduleFieldFiller")
 
   @@map("users")
 }
@@ -138,17 +150,20 @@ model ChurchRoleAssignment {
 }
 
 model Department {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  churchId    String   @map("church_id") @db.Uuid
+  id          String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  churchId    String             @map("church_id") @db.Uuid
   name        String
-  leaderId    String?  @map("leader_id") @db.Uuid
+  leaderId    String?            @map("leader_id") @db.Uuid
   description String?
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  template    DepartmentTemplate @default(personalizado)
+  isActive    Boolean            @default(true) @map("is_active")
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @updatedAt @map("updated_at")
 
   church             Church              @relation(fields: [churchId], references: [id])
   leader             User?               @relation("DepartmentLeader", fields: [leaderId], references: [id])
   members            DepartmentMember[]
+  fields             DepartmentField[]
   inviteTokens       InviteToken[]
   eventDepartments   EventDepartment[]
   eventNotifications EventNotification[]
@@ -156,6 +171,21 @@ model Department {
   availabilities     Availability[]
 
   @@map("departments")
+}
+
+model DepartmentField {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  departmentId String   @map("department_id") @db.Uuid
+  churchId     String   @map("church_id") @db.Uuid
+  label        String
+  order        Int      @default(0)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  department        Department          @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  scheduleFieldValues ScheduleFieldValue[]
+
+  @@index([departmentId])
+  @@map("department_fields")
 }
 
 model DepartmentMember {
@@ -232,15 +262,32 @@ model Schedule {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
-  event      Event            @relation(fields: [eventId], references: [id])
-  department Department       @relation(fields: [departmentId], references: [id])
-  minister   User?            @relation("ScheduleMinister", fields: [ministerId], references: [id])
+  event      Event              @relation(fields: [eventId], references: [id])
+  department Department         @relation(fields: [departmentId], references: [id])
+  minister   User?              @relation("ScheduleMinister", fields: [ministerId], references: [id])
   members    ScheduleMember[]
   songs      Song[]
   rehearsals Rehearsal[]
+  fieldValues ScheduleFieldValue[]
 
   @@unique([eventId, departmentId])
   @@map("schedules")
+}
+
+model ScheduleFieldValue {
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  scheduleId        String   @map("schedule_id") @db.Uuid
+  departmentFieldId String   @map("department_field_id") @db.Uuid
+  value             String
+  filledBy          String   @map("filled_by") @db.Uuid
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  schedule        Schedule        @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  departmentField DepartmentField @relation(fields: [departmentFieldId], references: [id], onDelete: Cascade)
+  filler          User            @relation("ScheduleFieldFiller", fields: [filledBy], references: [id])
+
+  @@unique([scheduleId, departmentFieldId])
+  @@map("schedule_field_values")
 }
 
 model ScheduleMember {

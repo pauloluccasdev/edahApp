@@ -1,0 +1,538 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+/* ─── Stepper ────────────────────────────────────────────── */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  flex: 1;
+  position: relative;
+}
+
+.stepItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 100%;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.stepActive .stepItem::after {
+  background: var(--color-brand-mid);
+}
+
+.stepDot {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+  position: relative;
+  z-index: 1;
+  transition: background var(--duration-state) var(--ease-out),
+              border-color var(--duration-state) var(--ease-out),
+              color var(--duration-state) var(--ease-out);
+}
+
+.stepActive .stepDot {
+  background: var(--color-brand-mid);
+  border-color: var(--color-brand-mid);
+  color: #fff;
+}
+
+.stepLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+
+.stepActive .stepLabel {
+  color: var(--color-text-primary);
+}
+
+/* ─── Step content ───────────────────────────────────────── */
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.stepTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.stepHint {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ─── Template grid ──────────────────────────────────────── */
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.templateCard {
+  display: flex;
+  align-items: stretch;
+  background: var(--color-bg-card);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--duration-micro) var(--ease-out),
+              box-shadow var(--duration-micro) var(--ease-out),
+              transform var(--duration-micro) var(--ease-out);
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.templateCard:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.templateCardSelected {
+  border-color: var(--card-accent, var(--color-brand-mid));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--card-accent, var(--color-brand-mid)) 20%, transparent),
+              var(--shadow-hover);
+}
+
+.templateAccent {
+  width: 4px;
+  flex-shrink: 0;
+}
+
+.templateCardInner {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.templateName {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.templateDesc {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  line-height: 1.4;
+}
+
+.fixedPreview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: var(--space-1);
+}
+
+.fixedChip {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px var(--space-2);
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+}
+
+/* ─── Form (Step 2) ──────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.required {
+  color: var(--color-danger);
+}
+
+.optional {
+  color: var(--color-text-tertiary);
+  font-weight: 400;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  transition: border-color var(--duration-micro) var(--ease-out);
+  box-sizing: border-box;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--color-brand-light);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234E6080' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  padding-right: var(--space-8);
+}
+
+.fieldHint {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+/* ─── Fixed fields preview (Step 2) ─────────────────────── */
+.fixedSection {
+  padding: var(--space-4);
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.fixedSectionTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fixedList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.fixedItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.fixedItemLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.fixedItemTag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px var(--space-2);
+  background: var(--color-bg-02);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-full);
+  color: var(--color-text-tertiary);
+}
+
+/* ─── Custom fields (Step 3) ─────────────────────────────── */
+.fieldList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.fieldRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: grab;
+  transition: box-shadow var(--duration-micro) var(--ease-out);
+}
+
+.fieldRow:active {
+  cursor: grabbing;
+}
+
+.fieldRow:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.dragHandle {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+  cursor: grab;
+}
+
+.fieldInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  outline: none;
+  min-width: 0;
+}
+
+.fieldInput::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.moveButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.moveBtn {
+  width: 22px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 3px;
+  transition: color var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.moveBtn:hover:not(:disabled) {
+  color: var(--color-text-primary);
+}
+
+.moveBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.removeBtn {
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  transition: color var(--duration-micro) var(--ease-out),
+              background var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.removeBtn:hover {
+  color: var(--color-danger);
+  background: var(--color-danger-bg);
+}
+
+.emptyFields {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+  text-align: center;
+  padding: var(--space-6) 0;
+  margin: 0;
+}
+
+.addFieldBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 36px;
+  padding: 0 var(--space-4);
+  background: transparent;
+  border: 1.5px dashed var(--color-border-mid);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  transition: border-color var(--duration-micro) var(--ease-out),
+              color var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.addFieldBtn:hover {
+  border-color: var(--color-brand-light);
+  color: var(--color-brand-light);
+}
+
+/* ─── Nav buttons ────────────────────────────────────────── */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.btnPrimary,
+.btnSecondary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 40px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--duration-micro) var(--ease-out),
+              background var(--duration-micro) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+}
+
+.btnPrimary {
+  background: var(--color-brand-mid);
+  border: none;
+  color: #fff;
+}
+
+.btnPrimary:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.btnPrimary:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.btnSecondary {
+  background: transparent;
+  border: 1px solid var(--color-border-mid);
+  color: var(--color-text-secondary);
+}
+
+.btnSecondary:hover:not(:disabled) {
+  background: var(--color-bg-02);
+  color: var(--color-text-primary);
+}
+
+.btnSecondary:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ─── Error ──────────────────────────────────────────────── */
+.errorText {
+  font-size: 14px;
+  color: var(--color-danger);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  margin: 0;
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (min-width: 480px) {
+  .templateGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 640px) {
+  .templateGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 479px) {
+  .templateGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .templateCardInner {
+    padding: var(--space-3);
+  }
+
+  .stepLabel {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .templateCard,
+  .fieldRow,
+  .btnPrimary,
+  .btnSecondary,
+  .addFieldBtn,
+  .stepDot {
+    transition: none;
+  }
+}
