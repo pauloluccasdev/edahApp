@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -18,6 +19,7 @@ import { CreateDepartmentDto } from '../dto/create-department.dto';
 import { UpdateDepartmentDto } from '../dto/update-department.dto';
 import { CreateDepartmentUseCase } from '../use-cases/create-department.use-case';
 import { DeactivateDepartmentUseCase } from '../use-cases/deactivate-department.use-case';
+import { DeleteDepartmentUseCase } from '../use-cases/delete-department.use-case';
 import { GetDepartmentUseCase } from '../use-cases/get-department.use-case';
 import { ListDepartmentsUseCase } from '../use-cases/list-departments.use-case';
 import { UpdateDepartmentUseCase } from '../use-cases/update-department.use-case';
@@ -31,6 +33,7 @@ export class DepartmentsController {
     private readonly getDepartment: GetDepartmentUseCase,
     private readonly updateDepartment: UpdateDepartmentUseCase,
     private readonly deactivateDepartment: DeactivateDepartmentUseCase,
+    private readonly deleteDepartment: DeleteDepartmentUseCase,
   ) {}
 
   @Post('churches/:churchId/departments')
@@ -79,5 +82,15 @@ export class DepartmentsController {
     @CurrentUser() operator: AuthenticatedUser,
   ) {
     return this.deactivateDepartment.execute(churchId, departmentId, operator);
+  }
+
+  @Delete('churches/:churchId/departments/:departmentId')
+  @HttpCode(HttpStatus.OK)
+  remove(
+    @Param('churchId', ParseUUIDPipe) churchId: string,
+    @Param('departmentId', ParseUUIDPipe) departmentId: string,
+    @CurrentUser() operator: AuthenticatedUser,
+  ) {
+    return this.deleteDepartment.execute(churchId, departmentId, operator);
   }
 }
