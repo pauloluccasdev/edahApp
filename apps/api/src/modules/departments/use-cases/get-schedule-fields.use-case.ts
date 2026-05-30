@@ -14,13 +14,14 @@ export class GetScheduleFieldsUseCase {
       select: {
         id: true,
         departmentId: true,
+        ministerId: true,
         department: { select: { leaderId: true } },
       },
     });
 
     if (!schedule) throw new NotFoundException('Escala não encontrada.');
 
-    await this.assertReadPermission(operator, churchId, schedule.department.leaderId);
+    await this.assertReadPermission(operator, churchId, schedule.department.leaderId, schedule.ministerId);
 
     const fieldValues = await this.prisma.scheduleFieldValue.findMany({
       where: { scheduleId },
@@ -60,6 +61,7 @@ export class GetScheduleFieldsUseCase {
     operator: AuthenticatedUser,
     churchId: string,
     departmentLeaderId: string | null,
+    ministerId: string | null,
   ): Promise<void> {
     if (operator.isSuporte) return;
 
@@ -74,8 +76,10 @@ export class GetScheduleFieldsUseCase {
 
     if (operator.role === ChurchRole.lider && operator.id === departmentLeaderId) return;
 
+    if (operator.id === ministerId) return;
+
     throw new ForbiddenException(
-      'Apenas o líder do ministério, pastores e Suporte podem visualizar os campos preenchidos.',
+      'Apenas o líder do ministério, pastores, o ministro responsável e Suporte podem visualizar os campos preenchidos.',
     );
   }
 }

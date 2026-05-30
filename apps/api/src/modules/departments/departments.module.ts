@@ -10,8 +10,10 @@ import { CreateDepartmentUseCase } from './use-cases/create-department.use-case'
 import { DeactivateDepartmentUseCase } from './use-cases/deactivate-department.use-case';
 import { DeleteDepartmentUseCase } from './use-cases/delete-department.use-case';
 import { GetScheduleFieldsUseCase } from './use-cases/get-schedule-fields.use-case';
+import { GetScheduleUseCase } from './use-cases/get-schedule.use-case';
 import { UpsertScheduleFieldsUseCase } from './use-cases/upsert-schedule-fields.use-case';
 import { GetDepartmentUseCase } from './use-cases/get-department.use-case';
+import { ListDepartmentSchedulesUseCase } from './use-cases/list-department-schedules.use-case';
 import { ListDepartmentsUseCase } from './use-cases/list-departments.use-case';
 import { UpdateDepartmentUseCase } from './use-cases/update-department.use-case';
 
@@ -23,11 +25,13 @@ import { UpdateDepartmentUseCase } from './use-cases/update-department.use-case'
     CreateDepartmentUseCase,
     ListDepartmentsUseCase,
     GetDepartmentUseCase,
+    ListDepartmentSchedulesUseCase,
     UpdateDepartmentUseCase,
     DeactivateDepartmentUseCase,
     DeleteDepartmentUseCase,
     UpsertScheduleFieldsUseCase,
     GetScheduleFieldsUseCase,
+    GetScheduleUseCase,
   ],
   exports: [DepartmentFieldSeederService],
 })

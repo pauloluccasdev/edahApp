@@ -15,6 +15,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { AuthenticatedUser } from '../../auth/interfaces/authenticated-user.interface';
 import { UpsertScheduleFieldsDto } from '../dto/upsert-schedule-fields.dto';
 import { GetScheduleFieldsUseCase } from '../use-cases/get-schedule-fields.use-case';
+import { GetScheduleUseCase } from '../use-cases/get-schedule.use-case';
 import { UpsertScheduleFieldsUseCase } from '../use-cases/upsert-schedule-fields.use-case';
 
 @Controller()
@@ -23,7 +24,17 @@ export class ScheduleFieldsController {
   constructor(
     private readonly upsertFields: UpsertScheduleFieldsUseCase,
     private readonly getFields: GetScheduleFieldsUseCase,
+    private readonly getSchedule: GetScheduleUseCase,
   ) {}
+
+  @Get('churches/:churchId/schedules/:scheduleId')
+  findOne(
+    @Param('churchId', ParseUUIDPipe) churchId: string,
+    @Param('scheduleId', ParseUUIDPipe) scheduleId: string,
+    @CurrentUser() operator: AuthenticatedUser,
+  ) {
+    return this.getSchedule.execute(churchId, scheduleId, operator);
+  }
 
   @Put('churches/:churchId/schedules/:scheduleId/fields')
   @HttpCode(HttpStatus.OK)

@@ -28,7 +28,18 @@ export class GetDepartmentUseCase {
         members: {
           select: {
             joinedAt: true,
-            user: { select: { id: true, name: true, avatarUrl: true } },
+            user: {
+              select: {
+                id: true,
+                name: true,
+                avatarUrl: true,
+                churchRoles: {
+                  where: { churchId },
+                  select: { role: true },
+                  take: 1,
+                },
+              },
+            },
           },
           orderBy: { joinedAt: 'asc' },
         },
